@@ -1,7 +1,7 @@
 package com.bridgelabz.cabinvoicegenerator;
 
 public class Ride {
-	public int time;
+	public final int time;
 	public double distance;
 
 	// parameterized Constructor
@@ -9,4 +9,10 @@ public class Ride {
 		this.distance = distance;
 		this.time = time;
 	}
+
+	public Ride(double distance, int time, CabInvoiceGenerator.RideMode rideMode) {
+		this.distance = distance;
+		this.time = time;
+	}
+
 }

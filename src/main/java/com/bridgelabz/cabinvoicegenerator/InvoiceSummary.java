@@ -5,6 +5,7 @@ public class InvoiceSummary {
 	public final int numberOfRides;
 	public final double totalFare;
 
+	// parameterized constructor
 	public InvoiceSummary(int numberOfRides, double totalFare) {
 		this.numberOfRides = numberOfRides;
 		this.totalFare = totalFare;
@@ -20,6 +21,5 @@ public class InvoiceSummary {
 		InvoiceSummary summary = (InvoiceSummary) o;
 		return numberOfRides == summary.numberOfRides && Double.compare(summary.totalFare, totalFare) == 0
 				&& Double.compare(summary.averageFarePerRide, averageFarePerRide) == 0;
-
 	}
 }
