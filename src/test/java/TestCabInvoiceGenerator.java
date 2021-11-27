@@ -12,45 +12,52 @@ import junit.framework.Assert;
 public class TestCabInvoiceGenerator {
 	CabInvoiceGenerator invoiceGenerator = null;
 
-	@Before
-	public void setUp() {
-		invoiceGenerator = new CabInvoiceGenerator();
+	 @Before
+	    public void setUp() throws Exception {
+	        invoiceGenerator = new CabInvoiceGenerator();
+	    }
+
+	    // testCase to write Total fare
+	    @Test
+	    public void givenDistanceAndTime_ShouldReturnTotalFare() {
+	        invoiceGenerator = new CabInvoiceGenerator();
+	        double distance = 2.0;
+	        int time = 5;
+	        double fare = invoiceGenerator.calculateFare(distance, time);
+	        Assert.assertEquals(25, fare, 0.0);
+	    }
+
+	    //testCase to calculate the Minimum Charges
+	    @Test
+	    public void givenLessDistanceAndTime_ShouldReturnMinFare() {
+	        invoiceGenerator = new CabInvoiceGenerator();
+	        double distance = 0.1;
+	        int time = 1;
+	        double fare = invoiceGenerator.calculateFare(distance, time);
+	        Assert.assertEquals(5, fare, 0.0);
+	    }
+
+	    //invoice generator for multiple rides
+	    @Test
+	    public void givenMultipleRides_ShouldReturnInvoiceSummary() {
+	        invoiceGenerator = new CabInvoiceGenerator();
+	        Ride[] rides = {new Ride(25.0, 30), new Ride(12.0, 20)};
+	        InvoiceSummary summary = invoiceGenerator.calculateFare(rides);
+	        InvoiceSummary expectedInvoiceSummary = new InvoiceSummary(2, 420);
+	        Assert.assertEquals(expectedInvoiceSummary, summary);
+	    }
+
+	    //testCase to return Invoice summary using userID
+	    @Test
+	    public void givenUserId_shouldReturnInvoiceSummary() {
+	        invoiceGenerator = new CabInvoiceGenerator();
+	        String userId = "sunilgollapalli@gmail.com";
+	        Ride[] rides = {new Ride(2.0, 5),
+	                new Ride(0.1, 1)};
+	        invoiceGenerator.addRides(userId, rides);
+	        InvoiceSummary summary = invoiceGenerator.calculateFare(rides, "normal");
+	        InvoiceSummary invoiceSummary = invoiceGenerator.getInvoiceSummary(userId);
+	        Assert.assertEquals(invoiceSummary, summary);
+
+	    }
 	}
-
-	// testCase to write Total fare
-	@Test
-	public void givenDistanceAndTime_ShouldReturnTotalFare() {
-		double distance = 2.0;
-		int time = 5;
-		double fare = invoiceGenerator.calculateFare(distance, time);
-		Assert.assertEquals(25, fare, 0.0);
-	}
-
-	// testCase to calculate the Minimum Charges
-	@Test
-	public void givenLessDistanceAndTime_ShouldReturnMinFare() {
-		double distance = 0.1;
-		int time = 1;
-		double fare = invoiceGenerator.calculateFare(distance, time);
-		Assert.assertEquals(5, fare, 0.0);
-
-	}
-
-	// testCase should return total Fare for multiple Rides
-	@Test
-	public void givenMultipleRides_ShouldReturnTotalFare() {
-		Ride[] rides = { new Ride(2.0, 5), new Ride(0.1, 1) };
-		double fare = invoiceGenerator.calculateFare(rides);
-		Assert.assertEquals(30, fare, 0.0);
-	}
-
-	// testcase should return the Invoice Summary
-	@Test
-	public void givenMultipleRides_ShouldReturnInvoiceSummary() {
-		Ride[] rides = { new Ride(5.0, 10), new Ride(10, 20) };
-		InvoiceSummary invoiceSummary = invoiceGenerator.getInvoiceSummary(rides);
-		InvoiceSummary summary = new InvoiceSummary(2, 180);
-		Assert.assertEquals(summary, invoiceSummary);
-	}
-
-}
